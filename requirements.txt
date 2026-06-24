@@ -1,9 +1,4 @@
 pandas
 numpy
-scikit-learn
-tensorflow==2.17.1
-prophet
-joblib
-yfinance
 streamlit
 plotly
