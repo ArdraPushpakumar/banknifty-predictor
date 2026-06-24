@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+.streamlit/secrets.toml
+
+# NOTE: data/ and models/ are intentionally NOT ignored — the GitHub
+# Actions workflows commit updates to those folders so the live state
+# persists between runs and the dashboard can read it.

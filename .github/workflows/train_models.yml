@@ -1,0 +1,39 @@
+name: Train / Retrain Model
+
+# Manual only — this retrains the GRU and rebuilds the residual log, so
+# you want to trigger it deliberately (initial bootstrap, or periodically
+# when you decide the model should learn from more recent data) rather
+# than have it run unattended on a schedule.
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Update historical data
+        run: python src/data_pipeline.py
+
+      - name: Train GRU + build residual log
+        run: python src/train_models.py
+
+      - name: Commit updated model + data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/ models/
+          git commit -m "Retrain model [skip ci]" || echo "No changes to commit"
+          git push
