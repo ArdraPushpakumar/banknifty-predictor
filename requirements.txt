@@ -1,8 +1,7 @@
 pandas
 numpy
 scikit-learn
-tensorflow
-keras
+tensorflow==2.17.1
 prophet
 joblib
 yfinance
